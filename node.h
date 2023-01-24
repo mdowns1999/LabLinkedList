@@ -137,7 +137,16 @@ inline void assign(Node <T> * & pDestination, const Node <T> * pSource)
          else
             setToNull = true;
 
-         //freeData(pDes);
+         //Make a pointer to store the values we will delete
+         Node<T>* pDelete;
+
+         //While the structure still has nodes, delete
+         while (pDes != nullptr)
+         {
+            pDelete = pDes;
+            pDes = pDes->pNext;
+            delete pDelete;
+         }
 
          if (setToNull)
             pDestination = nullptr;
