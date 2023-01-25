@@ -39,12 +39,8 @@ public:
    // Construct
    //
 
-   Node()
-   {
-      data = T();
-      pNext = nullptr;
-      pPrev = nullptr;
-   }
+   Node() : data(T()), pNext(nullptr), pPrev(nullptr) {}
+
    Node(const T &  data) : data(data), pNext(nullptr), pPrev(nullptr){}
 
    Node(      T && data)
@@ -125,32 +121,22 @@ inline void assign(Node <T> * & pDestination, const Node <T> * pSource)
             pDestination = pDes;
          pSrc = pSrc->pNext; //Advance Source
       }
+   }
 
+   //This will handle if Destination is bigger than Source
+   else if (pSrc == nullptr && pDes != nullptr)
+   {
+      bool setToNull = false;
 
-      //This will handle if Destination is bigger than Source
-      if (pSrc == nullptr && pDes != nullptr)
-      {
-         bool setToNull = false;
+      if (pDes->pPrev != nullptr)
+         pDes->pPrev->pNext = nullptr;
+      else
+         setToNull = true;
 
-         if (pDes->pPrev != nullptr)
-            pDes->pPrev->pNext = nullptr;
-         else
-            setToNull = true;
+      clear(pDes);
 
-         //Make a pointer to store the values we will delete
-         Node<T>* pDelete;
-
-         //While the structure still has nodes, delete
-         while (pDes != nullptr)
-         {
-            pDelete = pDes;
-            pDes = pDes->pNext;
-            delete pDelete;
-         }
-
-         if (setToNull)
-            pDestination = nullptr;
-      }
+      if (setToNull)
+         pDestination = nullptr;
    }
 
 }
